@@ -33,14 +33,17 @@ class BinarySearchTree:
             self.insert_helper(self.root, key)
 
     # searching a key in Binary search tree
-    def search(self, this_node,  key):
-        if this_node.key == key:
-            print("Key Found")
+    def search(self, this_node, key):
+        if this_node is None:
+            print('Key not found')
+            return False
+        elif this_node.key == key:
+            print('Key was found')
             return True
-        elif this_node.key < key:
-            self.search(this_node.right, key)
-        elif this_node.key > key:
+        elif key < this_node.key:
             self.search(this_node.left, key)
+        else:
+            self.search(this_node.right, key)
 
     # printing inorder  <== LEFT, ROOT, RIGHT  ==>
     def print_inorder(self, this_node):
@@ -70,8 +73,8 @@ if __name__ == "__main__":
     list = [10, 13, 21, 14, 8, 15, 32, 9]
     for i in list:
         bst.insert(i)
-        
-        
+
+    bst.search(bst.root, 21)
     print("In-Order Traversal")
     bst.print_inorder(bst.root)
     print("\nPre-Order Traversal")
