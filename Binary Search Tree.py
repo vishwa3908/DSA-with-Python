@@ -45,6 +45,40 @@ class BinarySearchTree:
         else:
             self.search(this_node.right, key)
 
+    # Deletion of Key
+    # First Finding Inorder Successor <== Smallest From Right ==>
+    def find_inorder_successor(self, this_node):
+        my_val = this_node
+        while my_val.left is None:
+            my_val = my_val.left
+        return my_val
+
+    # deleting
+    def delete_node(self, this_node, key):
+        if this_node is None:
+            return this_node
+        if key < this_node.key:
+            this_node.left = self.delete_node(this_node.left, key)
+        elif key > this_node.key:
+            this_node.right = self.delete_node(this_node.right, key)
+            # case 1 with no child or 1 child
+        else:
+            if this_node.left is None:
+                temp = this_node.right
+                this_node = None
+                return temp
+            elif this_node.right is None:
+                temp = this_node.left
+                this_node = None
+                return temp
+            # case 2 with 2 child
+            temp = self.find_inorder_successor(this_node.right)
+            this_node.key = temp.key
+            this_node.right = self.delete_node(this_node.right, temp.key)
+        return this_node
+
+
+
     # printing inorder  <== LEFT, ROOT, RIGHT  ==>
     def print_inorder(self, this_node):
         if this_node:
@@ -73,7 +107,7 @@ if __name__ == "__main__":
     list = [10, 13, 21, 14, 8, 15, 32, 9]
     for i in list:
         bst.insert(i)
-
+    bst.delete_node(bst.root, 14)
     bst.search(bst.root, 21)
     print("In-Order Traversal")
     bst.print_inorder(bst.root)
