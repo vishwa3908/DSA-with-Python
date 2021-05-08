@@ -1,1 +1,97 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
 
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    # push
+    def push(self, new_value):
+        new_node = Node(new_value)
+        new_node.next = self.head
+        if self.head is not None:
+            self.head.prev = new_node
+        self.head = new_node
+
+    def append(self, new_value):  # add to last
+        new_node = Node(new_value)
+        new_node.next = None
+        if self.head is None:
+            self.head = new_node
+            new_node.prev = None
+            return
+        last = self.head
+        while last.next is not None:
+            last = last.next
+        last.next = new_node
+        new_node.prev = last
+        return
+
+    # insert after
+    def insert_after(self, prev_node, new_value):
+        if not prev_node:
+            return "no prev node"
+        new_node = Node(new_value)
+        new_node.next = prev_node.next
+        prev_node.next = new_node
+        if new_node.next is not None:
+            new_node.next.prev = new_node
+
+    def print(self, node):
+        while node is not None:
+            print(node.data, end=" ")
+            node = node.next
+
+    # count Nodes
+    def count_Nodes(self):
+        curr = self.head
+        length = 0
+        while curr is not None:
+            length += 1
+            curr = curr.next
+        print("Total number of Nodes =>", length)
+
+    # Middle Node
+    def middle_node(self):
+        curr = self.head
+        length = 0
+        while curr:
+            length += 1
+            curr = curr.next
+        curr = self.head
+        for i in range((length - 1)//2):
+            curr = curr.next
+        if length % 2 == 0:
+            print("Middle Nodes are ", curr.data, "and", curr.next.data)
+        elif length % 2 != 0:
+            print("Middle Node is ", curr.data)
+
+    # Reversing List
+    def reverse(self):
+        curr = self.head
+        temp = None
+        while curr is not None:
+            temp = curr.prev
+            curr.prev = curr.next
+            curr.next = temp
+            curr = curr.prev
+        if temp is not None:
+            self.head = temp.prev
+
+
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+    dll.push(5)
+    dll.push(9)
+    dll.append(7)
+    dll.append(23)
+    dll.push(13)
+    dll.print(dll.head)
+    dll.count_Nodes()
+    dll.reverse()
+    dll.print(dll.head)
+    dll.middle_node()
