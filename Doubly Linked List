@@ -82,6 +82,42 @@ class DoublyLinkedList:
         if temp is not None:
             self.head = temp.prev
 
+    # deletion of Node
+    def delete_node(self, key):
+        curr = self.head
+        while curr:
+            if curr.data == key and curr == self.head:
+            # case 1
+                if curr.next is None:
+                    self.head = None
+                    curr = None
+                    return
+                else:
+                    nxt = curr.next
+                    curr.next = None
+                    curr.prev = None
+                    curr = None
+                    self.head = nxt
+                    return
+            elif curr.data == key:
+                if curr.next:
+                    nxt = curr.next
+                    prv = curr.prev
+                    prv.next = nxt
+                    nxt.prev = prv
+                    curr = None
+                    curr.prev = None
+                    curr.next = None
+                    return
+                else :
+                    prv = curr.prev
+                    curr = None
+                    prv.next = None
+                    curr.prev = None
+                    curr.next = None
+                    return
+            curr = curr.next
+
 
 if __name__ == "__main__":
     dll = DoublyLinkedList()
@@ -95,3 +131,5 @@ if __name__ == "__main__":
     dll.reverse()
     dll.print(dll.head)
     dll.middle_node()
+    dll.delete_node(23)
+    dll.print(dll.head)
