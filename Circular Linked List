@@ -1,1 +1,122 @@
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+        
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+        
+    def push(self,new_value):
+        new_node = Node(new_value)
+        new_node.next = self.head
+        curr = self.head
+        if curr is not None:
+            while curr:
+                curr = curr.next
+            curr.next = new_node
+        else:
+            new_node.next = new_node
+        self.head = new_node
+        
+    def append(self,new_value):
+        new_node = Node(new_value)
+        curr = self.head
+        if curr is None:
+            self.head = new_node
+            self.head.next = new_node
+        else:
+            while curr.next != self.head:
+                curr = curr.next
+            curr.next = new_node
+            new_node.next = self.head
+            
+    def insert_After(self,prev_node,new_value):
+        new_node = Node(new_value)
+        if prev_node is None:
+            return
+        else:
+            nxt = prev_node.next
+            prev_node.next = new_node
+            new_node.next = nxt
+            
+    def count_node_iterative(self):
+        count = 0
+        curr = self.head
+        while curr:
+            count += 1
+            curr = curr.next
+            if curr == self.head:
+                break
+        return count
+        
+    def count_node_recursive(self,node):
+            if node.next == self.head:
+                return 1
+            else:
+                return 1 + self.count_node_recursive(node.next)
+            
+    def remove_data(self,key):
+        curr = self.head
+        if curr and curr.data == key:
+            while curr != self.head:
+                curr = curr.next
+            curr.next = self.head.next
+            self.head = self.head.next 
+        else:
+            curr = self.head
+            prev = None
+            while curr.next != self.head:
+                prev = curr
+                curr = curr.next
+                if curr.data == key:    
+                   prev.next = curr.next
+                   curr = curr.next    
+                   
+    def remove_node(self,node):
+        curr = self.head
+        if curr and curr == node:
+            while curr != self.head:
+                curr = curr.next
+            curr.next = self.head.next
+            self.head = self.head.next 
+        else:
+            curr = self.head
+            prev = None
+            while curr.next != self.head:
+                prev = curr
+                curr = curr.next
+                if curr == node:    
+                   prev.next = curr.next
+                   curr = curr.next    
+          
+    def josephus_circle(self,step_size):
+        curr = self.head
+        while self.count_node_iterative() > 1:
+            count = 1
+            while count != step_size:
+                curr = curr.next
+                count += 1
+            print("Removed : " + str(curr.data))
+            self.remove_node(curr)
+            curr = curr.next
+        
+                
+    def print(self):
+        curr = self.head
+        while True:
+            print(curr.data,end=" -> ")
+            curr = curr.next
+            if curr == self.head:
+                break
+        print("\n")
+            
 
+if __name__ == "__main__":
+    cllist = CircularLinkedList()
+    cllist.push("A")
+    cllist.append("B")
+    cllist.append("C")
+    cllist.append("D")
+    cllist.print()  
+    cllist.josephus_circle(2)
