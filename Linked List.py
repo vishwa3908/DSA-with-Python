@@ -292,19 +292,53 @@ class LinkedList:
             curr = curr.next
         print(s)
 
+    def rotate_around_node(self,node):
+        p = self.head
+        q = self.head
+        prev = None
+        count = 0
+        while p and count < node:
+            prev = p
+            p = p.next
+            q = q.next
+            count += 1
+        p = prev
+        
+        while q:
+            prev = q
+            q = q.next
+        q = prev
+        
+        q.next = self.head
+        self.head = p.next
+        p.next = None
+        
+    def move_tail_to_head(self):
+        curr = self.head
+        prev = None
+        while curr.next:
+            prev = curr
+            curr = curr.next
+        curr.next = self.head
+        prev.next = None
+        self.head = curr
 
 
 if __name__ == "__main__":
     llist_1 = LinkedList()
     llist_2 = LinkedList()
     llist_1.append(1)
+    llist_1.append(2)
     llist_1.append(3)
-    llist_1.append(3)
-    llist_1.append(1)
+    llist_1.append(4)
     llist_1.print()
     llist_2.append(2)
     llist_2.append(5)
     llist_2.append(10)
-    llist_2.print()
-    llist_1.add_two_lists(llist_2)
-    llist_1.check_palindrome()
+    #llist_2.print()
+    #llist_1.add_two_lists(llist_2)
+    #llist_1.check_palindrome()
+    #llist_1.rotate_around_node(3)
+    #llist_1.print()
+    llist_1.move_tail_to_head()
+    llist_1.print()
